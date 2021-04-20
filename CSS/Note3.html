@@ -1,0 +1,259 @@
+<!-- CSS学习笔记 -->
+
+
+<!-- 7.伪类选择器 -->
+<!-- 伪类（不存在的类，特殊的类）
+    - 伪类用来描述一个元素的特殊状态
+        比如：第一个子元素、被点击的元素、鼠标移入的元素...
+    - 伪类一般情况下都是使用:开头
+        :first-child 第一个子元素
+        :last-child 最后一个子元素
+        :nth-child() 选中第n个子元素
+            特殊值：
+                n 第n个 n的范围0到正无穷
+                2n 或 even 表示选中偶数位的元素
+                2n+1 或 odd 表示选中奇数位的元素
+            - 以上这些伪类都是根据所有的子元素进行排序
+        :first-of-type
+        :last-of-type
+        :nth-of-type()
+            - 这几个伪类的功能和上述的类似，不通点是他们是在同类型元素中进行排序
+    - :not() 否定伪类
+        - 将符合条件的元素从选择器中去除 -->
+<style>
+    ul > li:first-child{
+        color: red;
+    }
+
+    ul > li:last-child{
+        color: red;
+    }
+
+    ul > li:nth-child(2n+1){
+        color: red;
+    }
+
+    ul > li:nth-child(even){
+        color: red;
+    }
+
+    ul > li:first-of-type{
+        color: red;
+    }
+
+    ul > li:not(:nth-of-type(3)){
+        color: yellowgreen;
+    }
+</style>
+<ul>
+    <span>我是一个span</span>
+    <li>第零个</li>
+    <li>第一个</li>
+    <li>第二个</li>
+    <li>第三个</li>
+    <li>第四个</li>
+    <li>第五个</li>
+</ul>
+
+
+<!-- 8.a元素的伪类 -->
+<!-- :link 用来表示没访问过的链接（正常的链接） -->
+<style>
+    a:link{
+            color: red;
+            
+        }
+</style>
+<!-- :visited 用来表示访问过的链接
+由于隐私的原因，所以visited这个伪类只能修改链接的颜色 -->
+<style>
+    a:visited{
+            color: orange; 
+            /* font-size: 50px;   */
+        }
+</style>
+<!-- :hover 用来表示鼠标移入的状态 -->
+<style>
+    a:hover{
+             color: aqua;
+             font-size: 50px;
+         }
+</style>
+<!-- :active 用来表示鼠标点击 -->
+<style>
+    a:active{
+             color: yellowgreen;
+             
+         }
+</style>
+<a href="https://www.baidu.com">访问过的链接</a>
+
+
+<!-- 9.伪元素选择器 -->
+<!-- 伪元素，表示页面中一些特殊的并不真实的存在的元素（特殊的位置）
+    伪元素使用 :: 开头
+    ::first-letter 表示第一个字母
+    ::first-line 表示第一行
+    ::selection 表示选中的内容
+    ::before 元素的开始 
+    ::after 元素的最后
+        - before 和 after 必须结合content属性来使用 -->
+<style>
+    p::first-letter{
+        font-size: 50px;
+    }
+    p::first-line{
+        background-color: yellow; 
+    }
+    p::selection{
+        background-color: greenyellow;
+    }
+    div::before{
+        content: '『';
+    }
+    div::after{
+        content: '』';
+    }
+</style>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio fugit corrupti cupiditate maxime deleniti quasi excepturi possimus adipisci, totam maiores ab officiis atque expedita aspernatur neque eum harum suscipit rem?
+</p>
+
+
+<!-- 10.样式的继承 -->
+<!-- 样式的继承，我们为一个元素设置的样式同时也会应用到它的后代元素上
+    继承是发生在祖先后后代之间的
+    继承的设计是为了方便我们的开发，
+        利用继承我们可以将一些通用的样式统一设置到共同的祖先元素上，
+            这样只需设置一次即可让所有的元素都具有该样式
+    注意：并不是所有的样式都会被继承：
+        比如 背景相关的，布局相关等的这些样式都不会被继承。 -->
+<style>
+    p{
+        color: red;
+        background-color: orange;
+    }
+
+    div{
+        color: yellowgreen
+    }
+</style>
+<p>
+    我是一个p元素
+    <span>我是p元素中的span</span>
+</p>
+<span>我是p元素外的span</span>
+<div>
+    我是div
+    <span>
+        我是div中的span
+        <em>我是span中的em</em>
+    </span>
+</div>
+
+
+<!-- 11.选择器的权重 -->
+<!-- 样式的冲突
+        - 当我们通过不同的选择器，选中相同的元素，并且为相同的样式设置不同的值时，此时就发生了样式的冲突。
+    发生样式冲突时，应用哪个样式由选择器的权重（优先级）决定
+    选择器的权重
+        内联样式        1,0,0,0
+        id选择器        0,1,0,0
+        类和伪类选择器   0,0,1,0
+        元素选择器       0,0,0,1
+        通配选择器       0,0,0,0
+        继承的样式       没有优先级
+    比较优先级时，需要将所有的选择器的优先级进行相加计算，最后优先级越高，则越优先显示（分组选择器是单独计算的）,
+        选择器的累加不会超过其最大的数量级，类选择器在高也不会超过id选择器
+        如果优先级计算后相同，此时则优先使用靠下的样式
+
+    可以在某一个样式的后边添加 !important ，则此时该样式会获取到最高的优先级，甚至超过内联样式，
+        注意：在开发中这个玩意一定要慎用！ -->
+<style>
+    #box1{
+        background-color: orange;
+    }
+
+    div#box1{
+        background-color: yellow;
+    }
+
+    .d1{
+        background-color: purple !important;
+    }
+    .red{
+        background-color: red;
+        /* font-size: 20px; */
+    }
+</style>
+<div id="box1" class="red d1 d2 d3 d4" style="background-color: chocolate;">我是一个div <span>我是div中的span</span></div>
+
+
+<!-- 12.单位 -->
+<!-- 长度单位：
+        像素
+            - 屏幕（显示器）实际上是由一个一个的小点点构成的
+            - 不同屏幕的像素大小是不同的，像素越小的屏幕显示的效果越清晰
+            - 所以同样的200px在不同的设备下显示效果不一样
+        百分比
+            - 也可以将属性值设置为相对于其父元素属性的百分比
+            - 设置百分比可以使子元素跟随父元素的改变而改变
+        em
+            - em是相对于元素的字体大小来计算的
+            - 1em = 1font-size
+            - em会根据字体大小的改变而改变
+        rem
+            - rem是相对于根元素的字体大小来计算 -->
+<style>
+    .box1{
+        width:300px;
+        height: 100px;
+        background-color: orange;
+    }
+    .box2{
+            width: 50%;
+            height: 50%;
+            background-color:aqua; 
+    }
+    .box3{
+        font-size: 50px;
+        /* width: 10em;
+        height: 10em; */
+        width: 10rem;
+        height: 10rem;
+        background-color: greenyellow;
+    }
+</style>
+
+
+<!-- 13.颜色 -->
+<!-- 颜色单位：
+        在CSS中可以直接使用颜色名来设置各种颜色
+            比如：red、orange、yellow、blue、green ... ...
+            但是在css中直接使用颜色名是非常的不方便
+        RGB值：
+            - RGB通过三种颜色的不同浓度来调配出不同的颜色
+            - R red，G green ，B blue
+            - 每一种颜色的范围在 0 - 255 (0% - 100%) 之间
+            - 语法：RGB(红色,绿色,蓝色)
+        RGBA:
+            - 就是在rgb的基础上增加了一个a表示不透明度
+            - 需要四个值，前三个和rgb一样，第四个表示不透明度
+                1表示完全不透明   0表示完全透明  .5半透明
+        十六进制的RGB值：
+            - 语法：#红色绿色蓝色
+            - 颜色浓度通过 00-ff
+            - 如果颜色两位两位重复可以进行简写  
+                #aabbcc -> #abc
+        HSL值 HSLA值
+            H 色相(0 - 360)
+            S 饱和度，颜色的浓度 0% - 100%
+            L 亮度，颜色的亮度 0% - 100% -->
+<style>
+    .box1{
+        background-color: #9CDCFE;
+        background-color: rgb(254, 156, 156);
+        background-color: #bbffaa;
+        background-color: hsla(98, 48%, 40%, 0.658);
+    }
+</style>
