@@ -1,0 +1,246 @@
+/* 浮动笔记 */
+
+
+/* 1.浮动的简介 */
+.box1{
+    width: 400px;
+    height: 200px;
+    background-color: #bfa;
+/* 
+    通过浮动可以使一个元素向其父元素的左侧或右侧移动
+        使用 float 属性来设置于元素的浮动
+            可选值：
+                none 默认值 ，元素不浮动
+                left 元素向左浮动
+                right 元素向右浮动
+
+        注意，元素设置浮动以后，水平布局的等式便不需要强制成立
+            元素设置浮动以后，会完全从文档流中脱离，不再占用文档流的位置，
+                所以元素下边的还在文档流中的元素会自动向上移动
+
+        浮动的特点：
+            1、浮动元素会完全脱离文档流，不再占据文档流中的位置
+            2、设置浮动以后元素会向父元素的左侧或右侧移动，
+            3、浮动元素默认不会从父元素中移出
+            4、浮动元素向左或向右移动时，不会超过它前边的其他浮动元素
+            5、如果浮动元素的上边是一个没有浮动的块元素，则浮动元素无法上移
+            6、浮动元素不会超过它上边的浮动的兄弟元素，最多最多就是和它一样高
+
+        简单总结：
+            浮动目前来讲它的主要作用就是让页面中的元素可以水平排列，
+                通过浮动可以制作一些水平方向的布局    
+*/
+    float:left;
+}
+
+
+/* 2.浮动的其他特点 */
+/*
+元素设置浮动以后，将会从文档流中脱离，从文档流中脱离后，元素的一些特点也会发生变化
+
+脱离文档流的特点：
+    块元素：
+        1、块元素不在独占页面的一行
+        2、脱离文档流以后，块元素的宽度和高度默认都被内容撑开
+    行内元素：
+        行内元素脱离文档流以后会变成块元素，特点和块元素一样
+    脱离文档流以后，不需要再区分块和行内了
+*/
+/* 
+浮动元素不会盖住文字，文字会自动环绕在浮动元素的周围，
+    所以我们可以利用浮动来设置文字环绕图片的效果
+*/
+
+
+/* 3.网页的布局 */
+header, main, footer{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+/* 设置头部 */
+header{
+    height: 150px;
+    background-color: silver;
+}
+
+/* 设置主体 */
+main{
+    height: 500px;
+    background-color: #bfa;
+    margin: 10px auto;
+}
+
+nav, article, aside{
+    float: left;
+    height: 100%;
+}
+
+/* 设置左侧的导航 */
+nav{
+    width: 200px;
+    background-color: yellow;
+}
+
+/* 设置中间的内容 */
+article{
+    width: 580px;
+    background-color: orange;
+    margin: 0 10px;
+}
+
+/* 设置右侧的内容 */
+aside{
+    width: 200px;
+    background-color: pink;
+}
+
+/* 设置底部 */
+footer{
+    height: 150px;
+    background-color: tomato;
+}
+/* <!-- 创建头部 -->
+<header></header>
+
+<!-- 创建网页的主体 -->
+<main>
+    <!-- 左侧导航 -->
+    <nav></nav>
+
+    <!-- 中间的内容 -->
+    <article></article>
+
+    <!-- 右边的边栏 -->
+    <aside></aside>
+
+</main>
+
+<!-- 网页的底部 -->
+<footer></footer> */
+
+
+/* 4.高度坍塌的问题 */
+/* 
+高度塌陷的问题：
+    在浮动布局中，父元素的高度默认是被子元素撑开的，
+        当子元素浮动后，其会完全脱离文档流，子元素从文档流中脱离
+        将会无法撑起父元素的高度，导致父元素的高度丢失
+
+    父元素高度丢失以后，其下的元素会自动上移，导致页面的布局混乱
+
+    所以高度塌陷是浮动布局中比较常见的一个问题，这个问题我们必须要进行处理！
+*/
+/* 
+BFC(Block Formatting Context) 块级格式化环境
+    - BFC是一个CSS中的一个隐含的属性，可以为一个元素开启BFC
+        开启BFC该元素会变成一个独立的布局区域
+    - 元素开启BFC后的特点：
+        1.开启BFC的元素不会被浮动元素所覆盖
+        2.开启BFC的元素子元素和父元素外边距不会重叠
+        3.开启BFC的元素可以包含浮动的子元素
+
+    - 可以通过一些特殊方式来开启元素的BFC：
+        1、设置元素的浮动（不推荐）
+        2、将元素设置为行内块元素（不推荐）
+        3、将元素的overflow设置为一个非visible的值
+            - 常用的方式 为元素设置 overflow:hidden 开启其BFC 以使其可以包含浮动元素
+*/
+.outer{
+    border:10px red solid;
+    /* float:left; */
+    /* display:inline-block; */
+    overflow:hidden;
+}
+.innner{
+    width:100px;
+    height:100px;
+    background-color: #bfa;
+    float:left;
+}
+/* <div class="outer">
+    <div class="inner"></div>
+</div> */
+
+
+/* 5.clear */
+/* 
+由于box1的浮动，导致box3位置上移
+    也就是box3收到了box1浮动的影响，位置发生了改变
+如果我们不希望某个元素因为其他元素浮动的影响而改变位置，
+    可以通过clear属性来清除浮动元素对当前元素所产生的影响
+
+clear
+    - 作用：清除浮动元素对当前元素所产生的影响
+    - 可选值：
+        left 清除左侧浮动元素对当前元素的影响
+        right 清除右侧浮动元素对当前元素的影响
+        both 清除两侧中最大影响的那侧
+    原理：
+        设置清除浮动以后，浏览器会自动为元素添加一个上外边距，
+            以使其位置不受其他元素的影响
+*/
+.box1{
+    width: 200px;
+    height: 200px;
+    background-color: #bfa;
+    float: left;
+}
+
+.box2{
+    width: 400px;
+    height: 150px;
+    background-color: #ff0;
+    float: right;
+}
+
+.box3{
+    width: 200px;
+    height: 200px;
+    background-color: orange;
+    clear: both;
+}
+/* <div class="box1">1</div>
+<div class="box2">2</div>
+<div class="box3">3</div> */
+
+
+/* 7.高度塌陷的最终解决方案 */
+.box1{
+    border:10px red solid;
+}
+.box2{
+    width:100px;
+    height:100px;
+    background-color: #bfa;
+    float:left;
+}
+/* .box3{
+    clear:both;
+} */
+.box1::after{
+    content: '';
+    display:block;
+    clear:both;
+}
+/* <div class="box1">
+        <div class="box2"></div>
+        <!-- <div class="box3"></div> -->
+    </div> */
+
+
+/* 8.clearfix */
+.box1::before{
+    content:'';
+    display:table;
+}
+/* clearfix 这个样式可以同时解决高度塌陷和外边距重叠的问题，当你在遇到这些问题时，直接使用clearfix这个类即可 */
+.clearfix::before,
+.clearfix::after{
+    content: '';
+    display: table;
+    clear: both;
+}
+/* <div class="box1 clearfix">
+    <div class="box2"></div>
+</div> */
