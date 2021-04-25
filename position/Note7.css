@@ -99,3 +99,72 @@
     top:0;
     right:0;
 }
+
+
+/* 4.粘滞定位 */
+/* 
+粘滞定位
+    - 当元素的position属性设置为sticky时则开启了元素的粘滞定位
+    - 粘滞定位和相对定位的特点基本一致，
+        不同的是粘滞定位可以在元素到达某个位置时将其固定
+*/
+
+
+/* 5.绝对定位元素的布局 */
+/* 
+    水平布局
+        left + margin-left + border-left + padding-left + width + padding-right + border-right + margin-right + right = 包含块的内容区的宽度
+
+    - 当我们开启了绝对定位后:
+        水平方向的布局等式就需要添加left 和 right 两个值
+            此时规则和之前一样只是多添加了两个值：
+                当发生过度约束：
+                    如果9个值中没有 auto 则自动调整right值以使等式满足
+                    如果有auto，则自动调整auto的值以使等式满足
+
+            - 可设置auto的值
+                margin width left right
+
+            - 因为left 和 right的值默认是auto，所以如果不指定left和right
+                则等式不满足时，会自动调整这两个值
+
+        垂直方向布局的等式的也必须要满足
+            top + margin-top/bottom + padding-top/bottom + border-top/bottom + height = 包含块的高度
+    */
+.box3{
+    width: 500px;
+    height: 500px;
+    background-color: #bfa;
+
+    position: relative;
+}
+.box4{
+    width: 100px;
+    height: 100px;
+    background-color: orange;
+    position:absolute;
+    margin:auto;
+    left:0;
+    top:0;
+}
+
+
+/* 6.元素的层级 */
+/* 
+对于开启了定位元素，可以通过z-index属性来指定元素的层级
+    z-index需要一个整数作为参数，值越大元素的层级越高
+        元素的层级越高越优先显示
+
+    如果元素的层级一样，则优先显示靠下的元素
+
+    祖先的元素的层级再高也不会盖住后代元素
+*/
+.box2{
+    width: 200px;
+    height: 200px;
+    background-color: rgba(255 , 0, 0, .3);
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    z-index: 3;
+}
