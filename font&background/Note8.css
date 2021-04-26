@@ -1,0 +1,198 @@
+/* 字体&背景笔记 */
+
+
+/* 1.字体 */
+/* 
+字体相关的样式 
+    color 用来设置字体颜色
+    font-size 字体的大小
+        和font-size相关的单位
+        em 相当于当前元素的一个font-size
+        rem 相对于根元素的一个font-size
+    font-family 字体族（字体的格式）
+        可选值：
+            serif  衬线字体
+            sans-serif 非衬线字体
+            monospace 等宽字体
+                - 指定字体的类别，浏览器会自动使用该类别下的字体
+
+        - font-family 可以同时指定多个字体，多个字体间使用,隔开
+            字体生效时优先使用第一个，第一个无法使用则使用第二个 以此类推
+            Microsoft YaHei,Heiti SC,tahoma,arial,Hiragino Sans GB,"\5B8B\4F53",sans-serif
+*/
+p{
+    color:skyblue;
+    font-size: 40px;
+    font-family: sans-serif;
+}
+/* 
+font-face可以将服务器中的字体直接提供给用户去使用 
+    问题：
+        1.加载速度
+        2.版权
+        3.字体格式
+*/
+@font-face {
+    /* 指定字体的名字 */
+font-family:'myfont' ;
+/* 服务器中字体的路径 */
+src: url('./font/ZCOOLKuaiLe-Regular.ttf') format("truetype");
+}
+
+
+/* 2.图标字体 */
+/* 图标字体（iconfont）
+    - 在网页中经常需要使用一些图标，可以通过图片来引入图标
+        但是图片大小本身比较大，并且非常的不灵活
+    - 所以在使用图标时，我们还可以将图标直接设置为字体，
+        然后通过font-face的形式来对字体进行引入
+    - 这样我们就可以通过使用字体的形式来使用图标
+
+fontawesome 使用步骤
+    1.下载 https://fontawesome.com/
+    2.解压
+    3.将css和webfonts移动到项目中
+    4.将all.css引入到网页中
+    <link rel="stylesheet" href="./fa/css/all.css">
+    5.使用图标字体
+        - 直接通过类名来使用图标字体
+            class="fas fa-bell"
+            class="fab fa-accessible-icon"
+        -通过伪元素来设置图标字体
+        1.找到要设置图标的元素通过before或after选中
+        2.在content中设置字体的编码
+        3.设置字体的样式
+            fab
+            font-family: 'Font Awesome 5 Brands';
+
+            fas
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;*/
+li::before{
+    content: '\f1b0';
+    /* font-family: 'Font Awesome 5 Brands'; */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900; 
+    color: blue;
+    margin-right: 10px;
+}
+        /* -通过实体来使用图标字体：
+        &#x图标的编码;
+<span class="fas">&#xf0f3;</span> */
+
+
+/* 3.阿里的字体库 */
+/* <link rel="stylesheet" href="./iconfont/iconfont.css"> */
+i.iconfont{
+    font-size: 100px;
+}
+
+p::before{
+    content: '\e625';
+    font-family: 'iconfont';
+    font-size: 100px;
+}
+/* <i class="iconfont">&#xe623;</i>
+<i class="iconfont icon-qitalaji"></i> */
+
+
+/* 4.行高 */
+/* 
+行高（line height）
+    - 行高指的是文字占有的实际高度
+    - 可以通过line-height来设置行高
+        行高可以直接指定一个大小（px em）
+        也可以直接为行高设置一个整数
+            如果是一个整数的话，行高将会是字体的指定的倍数
+    - 行高经常还用来设置文字的行间距
+        行间距 = 行高 - 字体大小
+字体框
+    - 字体框就是字体存在的格子，设置font-size实际上就是在设置字体框的高度
+
+行高会在字体框的上下平均分配
+*/
+div{
+    font-size: 50px;
+/* 可以将行高设置为和高度一样的值，使单行文字在一个元素中垂直居中 */
+    line-height: 200px;
+    border: 1px red solid;
+}
+
+
+/* 5.字体的简写属性 */
+/* 
+font 可以设置字体相关的所有属性
+    语法：
+        font: 字体大小/行高 字体族
+        行高 可以省略不写 如果不写使用默认值
+*/
+div{
+    border: 1px red solid;
+    /* font-size: 50px;
+    font-family: 'Times New Roman', Times, serif; */
+
+    font: normal normal 50px/2  微软雅黑, 'Times New Roman', Times, serif;
+    /* font: bold italic 50px/2  微软雅黑, 'Times New Roman', Times, serif; */
+/* font-weight 字重 字体的加粗 
+            可选值：
+                normal 默认值 不加粗
+                bold 加粗
+                100-900 九个级别（没什么用）
+    font-style 字体的风格
+                normal 正常的
+                italic 斜体
+*/
+    font-weight:bold;
+    font-weight:500;
+    font-style: italic;
+}
+
+
+/* 6.文本的样式 */
+/* 
+text-align 文本的水平对齐
+    可选值：
+        left 左侧对齐
+        right 右对齐
+        center 居中对齐
+        justify 两端对齐
+*/
+/*
+vertical-align 设置元素垂直对齐的方式
+    可选值：
+        baseline 默认值 基线对齐
+        top 顶部对齐
+        bottom 底部对齐
+        middle 居中对齐
+*/
+div{
+    width:800px;
+    border:1px red solid;
+    text-align: justify;
+    vertical-align:baseline;
+}
+/* 
+text-decoration 设置文本修饰
+    可选值：
+        none 什么都没有
+        underline 下划线
+        line-through 删除线
+        overline 上划线
+*/
+div{
+    text-decoration:none;
+
+}
+/* 
+white-space 设置网页如何处理空白
+    可选值：
+        normal 正常
+        nowrap 不换行
+        pre 保留空白
+*/
+.box{
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
